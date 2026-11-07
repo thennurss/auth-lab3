@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Админ-панель{% endblock %}
+{% block mainclass %}wide{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Админ-панель</h1>
+  <p style="color:var(--muted)">Список всех зарегистрированных учётных записей.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Логин</th><th>Роль</th><th>Создан</th><th>Права доступа</th></tr></thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td>{{ u.id }}</td>
+          <td>{{ u.username }}</td>
+          <td><span class="badge {{ u.role }}">{{ u.role }}</span></td>
+          <td>{{ u.created_at }}</td>
+          <td>
+            {% if u.role == 'admin' %}
+              <span style="color:var(--muted)">все</span>
+            {% else %}
+              <a href="{{ url_for('admin_user', user_id=u.id) }}">Настроить</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

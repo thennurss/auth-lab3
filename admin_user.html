@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Права: {{ target.username }}{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Права доступа: {{ target.username }}</h1>
+  <p style="color:var(--muted)">Отметьте разделы, к которым пользователю разрешён доступ.</p>
+  <form method="post">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    {% for p in perms %}
+    <label style="display:flex;gap:10px;align-items:flex-start;color:var(--text);padding:10px 0;border-bottom:1px solid var(--line);margin:0">
+      <input type="checkbox" name="permissions" value="{{ p.code }}" style="width:auto;margin-top:4px"
+             {% if p.code in granted %}checked{% endif %}>
+      <span>
+        <strong>{{ p.title }}</strong><br>
+        <span style="color:var(--muted);font-size:14px">{{ p.description }}</span>
+      </span>
+    </label>
+    {% endfor %}
+    <button class="full" type="submit">Сохранить</button>
+  </form>
+  <p class="hint"><a href="{{ url_for('admin') }}">← К списку пользователей</a></p>
+</div>
+{% endblock %}

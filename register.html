@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Регистрация</h1>
+  <form method="post">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <label for="username">Логин (латиница, цифры, _; 3–20 символов)</label>
+    <input id="username" name="username" required minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+" autocomplete="username">
+    <label for="password">Пароль (от 6 символов)</label>
+    <input id="password" name="password" type="password" required minlength="6" autocomplete="new-password">
+    <label for="confirm">Повторите пароль</label>
+    <input id="confirm" name="confirm" type="password" required minlength="6" autocomplete="new-password">
+    <button class="full" type="submit">Создать аккаунт</button>
+  </form>
+  <p class="hint">Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></p>
+</div>
+{% endblock %}

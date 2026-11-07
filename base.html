@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Авторизация{% endblock %}</title>
+  <style>
+    :root { --bg:#f4f6fb; --card:#fff; --text:#1c2333; --muted:#6b7385; --accent:#3b5bdb; --err:#c92a2a; --ok:#2b8a3e; --line:#e3e7f0; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--text); }
+    header { background:var(--card); border-bottom:1px solid var(--line); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    header a { color:var(--accent); text-decoration:none; margin-right:14px; }
+    header form { display:inline; }
+    main { max-width:480px; margin:40px auto; padding:0 16px; }
+    main.wide { max-width:760px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:28px; }
+    h1 { margin:0 0 20px; font-size:22px; }
+    label { display:block; font-size:14px; margin:14px 0 6px; color:var(--muted); }
+    input { width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:16px; }
+    input:focus { outline:2px solid var(--accent); border-color:transparent; }
+    button { background:var(--accent); color:#fff; border:0; border-radius:8px; padding:11px 16px; font-size:16px; cursor:pointer; }
+    button.full { width:100%; margin-top:20px; }
+    button.link { background:none; color:var(--accent); padding:0; font-size:inherit; }
+    .flash { padding:10px 14px; border-radius:8px; margin-bottom:16px; font-size:14px; }
+    .flash.error { background:#fff0f0; color:var(--err); }
+    .flash.success { background:#ebfbee; color:var(--ok); }
+    .hint { color:var(--muted); font-size:14px; margin-top:18px; text-align:center; }
+    .hint a { color:var(--accent); }
+    .badge { display:inline-block; padding:2px 10px; border-radius:99px; font-size:13px; background:#e7ecff; color:var(--accent); }
+    .badge.admin { background:#ffe8cc; color:#d9480f; }
+    table { width:100%; border-collapse:collapse; font-size:15px; }
+    th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); }
+    th { color:var(--muted); font-weight:500; }
+    .table-wrap { overflow-x:auto; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      {% if g.user %}
+        <a href="{{ url_for('dashboard') }}">Кабинет</a>
+        {% if can('view_reports') %}<a href="{{ url_for('reports') }}">Отчёты</a>{% endif %}
+        {% if can('view_files') %}<a href="{{ url_for('files') }}">Файлы</a>{% endif %}
+        {% if g.user.role == 'admin' %}<a href="{{ url_for('admin') }}">Админ-панель</a>{% endif %}
+      {% else %}
+        <a href="{{ url_for('login') }}">Вход</a>
+        <a href="{{ url_for('register') }}">Регистрация</a>
+      {% endif %}
+    </nav>
+    {% if g.user %}
+    <form method="post" action="{{ url_for('logout') }}">
+      <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+      <span style="color:var(--muted);margin-right:8px">{{ g.user.username }}</span>
+      <button class="link" type="submit">Выйти</button>
+    </form>
+    {% endif %}
+  </header>
+  <main class="{% block mainclass %}{% endblock %}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Личный кабинет</h1>
+  <p>Логин: <strong>{{ g.user.username }}</strong></p>
+  <p>Роль: <span class="badge {{ g.user.role }}">{{ 'Администратор' if g.user.role == 'admin' else 'Пользователь' }}</span></p>
+  {% if g.user.role == 'admin' %}
+    <p><a href="{{ url_for('admin') }}">Открыть админ-панель →</a></p>
+  {% endif %}
+  <h2 style="font-size:17px;margin:22px 0 8px">Доступные разделы</h2>
+  <ul style="margin:0;padding-left:20px;line-height:1.8">
+    <li>Личный кабинет</li>
+    {% if can('view_reports') %}<li><a href="{{ url_for('reports') }}">Отчёты</a></li>{% endif %}
+    {% if can('view_files') %}<li><a href="{{ url_for('files') }}">Файлы</a></li>{% endif %}
+  </ul>
+  {% if g.user.role != 'admin' and not (can('view_reports') and can('view_files')) %}
+    <p style="color:var(--muted);margin-top:14px">Остальные разделы недоступны. Права выдаёт администратор.</p>
+  {% endif %}
+</div>
+{% endblock %}

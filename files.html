@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Файлы{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Файлы</h1>
+  <p style="color:var(--muted)">Демо-раздел: виден только тем, кому выдано право «Просмотр файлов».</p>
+  <table>
+    <thead><tr><th>Файл</th><th>Размер</th></tr></thead>
+    <tbody>
+      <tr><td>instruction.pdf</td><td>120 КБ</td></tr>
+      <tr><td>template.docx</td><td>48 КБ</td></tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Отчёты{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Отчёты</h1>
+  <p style="color:var(--muted)">Демо-раздел: виден только тем, кому выдано право «Просмотр отчётов».</p>
+  <table>
+    <thead><tr><th>Отчёт</th><th>Период</th></tr></thead>
+    <tbody>
+      <tr><td>Активность пользователей</td><td>Октябрь</td></tr>
+      <tr><td>Регистрации</td><td>Ноябрь</td></tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

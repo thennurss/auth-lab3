@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Вход</h1>
+  <form method="post" autocomplete="on">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <label for="username">Логин</label>
+    <input id="username" name="username" required autofocus autocomplete="username">
+    <label for="password">Пароль</label>
+    <input id="password" name="password" type="password" required autocomplete="current-password">
+    <button class="full" type="submit">Войти</button>
+  </form>
+  <p class="hint">Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
+</div>
+{% endblock %}
